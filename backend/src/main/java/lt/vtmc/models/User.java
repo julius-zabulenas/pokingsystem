@@ -1,6 +1,5 @@
 package lt.vtmc.models;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,13 +14,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
-//@Embeddable
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -32,6 +31,7 @@ public class User {
 	@Email
 	private String email;
 
+	@JsonIgnore
 	@NotBlank
 	private String password;
 
@@ -48,13 +48,13 @@ public class User {
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany
-	@JoinColumn(name = "user_id")
-	private List<Poke> pokesSent = new ArrayList<>();
+	@OneToMany(mappedBy = "userFrom")
+	private List<Poke> pokesSent;
 
-	@OneToMany
-	@JoinColumn(name = "user_from_id")
-	private List<Poke> pokesReceived = new ArrayList<>();
+	@OneToMany(mappedBy = "userTo")
+	private List<Poke> pokesReceived;
+
+	private String imageUrl;
 
 	public User() {
 
@@ -122,5 +122,13 @@ public class User {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }
