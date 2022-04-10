@@ -25,6 +25,8 @@ public class SignupRequest {
 	@NotBlank
 	private String city;
 
+	private String image;
+
 	private Set<String> role;
 
 	public String getFirstName() {
@@ -74,4 +76,13 @@ public class SignupRequest {
 	public void setRole(Set<String> role) {
 		this.role = role;
 	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 }

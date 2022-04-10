@@ -12,13 +12,13 @@ export default function Search() {
     // Fetching all of the users from the database, so I have something to display on 'Search for people'
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`http://localhost:8080/api/users/search/nameStartsWith?name=${searchQuery}`);
+            const response = await fetch(searchQuery !== "" ? `http://localhost:8080/api/users/search/nameStartsWith?name=${searchQuery}` : "http://localhost:8080/api/users/search/nameStartsWith?name=null");
             const data = await response.json();
             setUsers(data);
         };
 
         fetchData();
-    }, []);
+    }, [searchQuery]);
 
     // Fetching all existing or not pokes, so I can send HTTP requests to the endpoint
     useEffect(() => {
@@ -114,7 +114,6 @@ export default function Search() {
 
                     <form className="d-flex">
                         <input type="text" className="form-control" placeholder="Search" onChange={e => setSearchQuery(e.target.value)} />
-                        <button className="btn btn-primary ms-4" type="button">Search</button>
                     </form>
                 </div>
             </div>
@@ -125,7 +124,7 @@ export default function Search() {
                     if (user.id !== currentUser.id) {
                         return (
                             <div className="card col-4" style={{ width: "18rem" }} key={user.id}>
-                                <img src={user.imageUrl} className="card-img-top" alt="..." />
+                                <img src={require(`../images/${user.image}`)} className="card-img-top" alt="..." />
                                 <div className="card-body">
                                     <h5 className="card-title">{user.firstName} {user.lastName}</h5>
                                     <p className="card-text">From: {user.city}</p>

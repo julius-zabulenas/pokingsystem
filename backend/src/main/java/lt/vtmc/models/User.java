@@ -44,6 +44,8 @@ public class User {
 	@NotBlank
 	private String city;
 
+	private String image;
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
@@ -54,18 +56,17 @@ public class User {
 	@OneToMany(mappedBy = "userTo")
 	private List<Poke> pokesReceived;
 
-	private String imageUrl;
-
 	public User() {
 
 	}
 
-	public User(String email, String password, String firstName, String lastName, String city) {
+	public User(String email, String password, String firstName, String lastName, String city, String image) {
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.city = city;
+		this.image = image;
 	}
 
 	public String getFirstName() {
@@ -124,11 +125,12 @@ public class User {
 		this.roles = roles;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+	public String getImage() {
+		return image;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImage(String image) {
+		this.image = image;
 	}
+
 }

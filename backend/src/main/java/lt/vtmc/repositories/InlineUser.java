@@ -17,5 +17,5 @@ public interface InlineUser {
 
 	String getCity();
 
-	String getImageUrl();
+	String getImage();
 }

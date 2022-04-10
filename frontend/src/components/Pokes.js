@@ -28,7 +28,7 @@ export default function Pokes() {
                         //     <p>{poke.pokeAmount} times</p>
                         // </div>
                         <div className="card col-4" style={{ width: "18rem" }}>
-                            <img src={poke._embedded.userFrom.imageUrl} className="card-img-top" alt="..." />
+                            <img src={require(`../images/${poke._embedded.userFrom.image}`)} className="card-img-top" alt="..." />
                             <div className="card-body">
                                 <h5 className="card-title">{poke._embedded.userFrom.firstName} {poke._embedded.userFrom.lastName}</h5>
                                 <p className="card-text">From: {poke._embedded.userFrom.city}</p>
