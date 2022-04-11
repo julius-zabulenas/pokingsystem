@@ -122,9 +122,9 @@ public class AuthController {
 		try {
 			file.transferTo(
 //					Linux
-//					new File("/home/julius/git/pokingsystem/frontend/src/images/" + fileName));
+					new File("/home/julius/git/pokingsystem/frontend/src/images/" + fileName));
 //					Windows
-					new File("C:\\Users\\mokinys\\git\\pokingsystem\\frontend\\src\\images\\" + fileName));
+//					new File("C:\\Users\\mokinys\\git\\pokingsystem\\frontend\\src\\images\\" + fileName));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
