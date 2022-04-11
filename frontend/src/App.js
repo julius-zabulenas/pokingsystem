@@ -36,7 +36,7 @@ const App = () => {
 
   return (
     <>
-      <header>
+      <header className="container">
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
             Poke

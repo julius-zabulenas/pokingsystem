@@ -28,11 +28,11 @@ public class PokeController {
 
 	@PutMapping
 	public ResponseEntity<?> pokeUser(@RequestBody Poke requestPoke) {
-		Poke poke = new Poke(requestPoke.getUserId(), requestPoke.getUserFromId(), requestPoke.getPokeAmount());
+		Poke poke = new Poke(requestPoke.getUserTo(), requestPoke.getUserFrom(), requestPoke.getPokeAmount());
 
-		if (pokeRepository.existsByUserIdAndUserFromId(requestPoke.getUserId(), requestPoke.getUserFromId())) {
-			Poke pokeFromDb = pokeRepository.findByUserIdAndUserFromId(requestPoke.getUserId(),
-					requestPoke.getUserFromId());
+		if (pokeRepository.existsByUserToAndUserFrom(requestPoke.getUserTo(), requestPoke.getUserFrom())) {
+			Poke pokeFromDb = pokeRepository.findByUserToAndUserFrom(requestPoke.getUserTo(),
+					requestPoke.getUserFrom());
 
 			pokeFromDb.setPokeAmount(pokeFromDb.getPokeAmount() + requestPoke.getPokeAmount());
 			pokeRepository.save(pokeFromDb);
@@ -51,12 +51,12 @@ public class PokeController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getPeopleToPoke(@PathVariable Long id) {
-		return ResponseEntity.ok().body(pokeRepository.findByUserFromId(id));
+		return ResponseEntity.ok().body(pokeRepository.findByUserFrom(id));
 	}
 
 	@GetMapping("/received/{id}")
 	public ResponseEntity<?> getPokes(@PathVariable Long id) {
-		return ResponseEntity.ok().body(pokeRepository.findByUserId(id));
+		return ResponseEntity.ok().body(pokeRepository.findByUserTo(id));
 	}
 
 	@GetMapping("/user/{id}")

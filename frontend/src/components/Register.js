@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import AuthService from "../services/auth.service";
 import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
+    // const picture = document.getElementById('picture').files[0];
     const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
     const navigate = useNavigate();
-    const onSubmit = data => AuthService.register(data.firstName, data.lastName, data.city, data.email, data.password)
-        .then(() => navigate("/register-success"));
+    const [picture, setPicture] = useState({})
+    const onSubmit = data => {
+        AuthService.register(data, picture)
+            .then(() => navigate("/register-success"))
+    }
 
     return (
         <div className="col-md-12">
@@ -34,6 +38,11 @@ export default function Register() {
                         <input {...register("email", { required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ })} className="form-control" />
                         {errors?.email?.type === "required" && <p>This field is required</p>}
                         {errors?.email?.type === "pattern" && <p>Must be a valid email address</p>}
+                    </div>
+                    <div className="form-group">
+                        <label className='mb-2'>Profile picture</label>
+                        {/* <input type="file" className="form-control" id='picture' /> */}
+                        <input onChange={e => setPicture(e.target.files[0])} type="file" className="form-control" />
                     </div>
                     <div className="form-group">
                         <label className='mb-2'>Password</label>

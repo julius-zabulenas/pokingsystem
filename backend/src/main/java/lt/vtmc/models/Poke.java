@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,60 +17,41 @@ public class Poke {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "user_id")
-	private Long userId;
+	@ManyToOne
+	@JoinColumn(name = "user_to_id")
+	private User userTo;
 
-	@Column(name = "user_from_id")
-	private Long userFromId;
+	@ManyToOne
+	@JoinColumn(name = "user_from_id")
+	private User userFrom;
 
 	@Column(name = "poke_amount")
 	private Integer pokeAmount;
 
-//	@Embedded
-//	private User user;
-
-	public Poke(Long userId, Long userFromId, Integer pokeAmount) {
-		this.userId = userId;
-		this.userFromId = userFromId;
+	public Poke(User userTo, User userFrom, Integer pokeAmount) {
+		this.userTo = userTo;
+		this.userFrom = userFrom;
 		this.pokeAmount = pokeAmount;
 	}
-
-//	public Poke(Long userId, Long userFromId, Integer pokeAmount, User user) {
-//		this.userId = userId;
-//		this.userFromId = userFromId;
-//		this.pokeAmount = pokeAmount;
-//		this.user = user;
-//	}
-
-//	@ManyToOne
-//	private User user;
 
 	public Poke() {
 
 	}
 
-	public Long getId() {
-		return id;
+	public User getUserTo() {
+		return userTo;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUserTo(User userTo) {
+		this.userTo = userTo;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public User getUserFrom() {
+		return userFrom;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public Long getUserFromId() {
-		return userFromId;
-	}
-
-	public void setUserFromId(Long userFromId) {
-		this.userFromId = userFromId;
+	public void setUserFrom(User userFrom) {
+		this.userFrom = userFrom;
 	}
 
 	public Integer getPokeAmount() {
@@ -78,13 +61,5 @@ public class Poke {
 	public void setPokeAmount(Integer pokeAmount) {
 		this.pokeAmount = pokeAmount;
 	}
-
-//	public User getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
 
 }
