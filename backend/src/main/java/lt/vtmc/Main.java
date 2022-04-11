@@ -28,3 +28,4 @@ public class Main implements RepositoryRestConfigurer {
 // Make sure to enable security on some endpoints
 // Make images added to the file server always unique
 // Add keys to poked by
+// Mobile usability???

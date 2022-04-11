@@ -17,7 +17,7 @@ export default function Pokes() {
 
     return (
         <>
-            <h2>A list of people you have been poked by</h2>
+            <h2>People you have been poked by</h2>
 
             <div className="row">
                 {pokes?._embedded?.pokes.map(poke => {

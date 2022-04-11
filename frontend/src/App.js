@@ -12,6 +12,7 @@ import BoardAdmin from "./components/BoardAdmin";
 import Search from "./components/Search";
 import RegisterSuccess from "./components/RegisterSuccess";
 import Pokes from "./components/Pokes";
+import HomeLoggedIn from "./components/HomeLoggedIn";
 
 const App = () => {
 
@@ -38,15 +39,16 @@ const App = () => {
     <>
       <header className="container">
         <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/"} className="navbar-brand">
-            Poke
-          </Link>
+          {currentUser ? (
+            <Link to={"/welcome"} className="navbar-brand">
+              Home
+            </Link>
+          ) : (
+            <Link to={"/"} className="navbar-brand">
+              Home
+            </Link>
+          )}
           <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/"} className="nav-link">
-                Home
-              </Link>
-            </li>
             {showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/mod"} className="nav-link">
@@ -63,14 +65,14 @@ const App = () => {
             )}
             {currentUser && (
               <>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                   <Link to={"/user"} className="nav-link">
                     User
                   </Link>
-                </li>
+                </li> */}
                 <li className="nav-item">
                   <Link to={"/search"} className="nav-link">
-                    Search for people
+                    Search
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -82,18 +84,20 @@ const App = () => {
             )}
           </div>
           {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={logOut}>
-                  LogOut
-                </a>
-              </li>
-            </div>
+            <>
+              <div className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link to={"/profile"} className="nav-link">
+                    {currentUser.username}
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a href="/login" className="nav-link" onClick={logOut}>
+                    Log out
+                  </a>
+                </li>
+              </div>
+            </>
           ) : (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
@@ -103,7 +107,7 @@ const App = () => {
               </li>
               <li className="nav-item">
                 <Link to={"/register"} className="nav-link">
-                  Sign Up
+                  Sign up
                 </Link>
               </li>
             </div>
@@ -123,6 +127,7 @@ const App = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/register-success" element={<RegisterSuccess />} />
           <Route path="/pokes" element={<Pokes />} />
+          <Route path="/welcome" element={<HomeLoggedIn />} />
         </Routes>
       </main>
     </>
