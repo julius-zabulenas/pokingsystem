@@ -9,7 +9,8 @@ export default function Login() {
     const navigate = useNavigate();
     const onSubmit = data => AuthService.login(data.email, data.password)
         .then(() => {
-            navigate("/profile");
+            // navigate("/profile");
+            navigate("/welcome")
             window.location.reload();
         })
         .catch(() => setMessage("Email or password is incorrect"));
