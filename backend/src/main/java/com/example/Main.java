@@ -21,10 +21,3 @@ public class Main implements RepositoryRestConfigurer {
 		config.exposeIdsFor(Poke.class);
 	}
 }
-
-//	You did not fully complete the tatorial of Spring, cuz no token expiration?
-//	Add some tests XD? Make em look good. Baeldung on rest relationships has tests
-// Make sure to enable security on some endpoints
-// Make images added to the file server always unique
-// Add keys to poked by
-// Mobile usability???
