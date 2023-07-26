@@ -8,10 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.example.models.ERole;
-import com.example.models.Role;
-import com.example.models.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.models.ERole;
+import com.example.models.Role;
+import com.example.models.User;
 import com.example.payload.requests.LoginRequest;
 import com.example.payload.requests.SignupRequest;
 import com.example.payload.responses.JwtResponse;
@@ -36,21 +35,26 @@ import com.example.repositories.UserRepository;
 import com.example.security.jwt.JwtUtils;
 import com.example.security.services.UserDetailsImpl;
 
+// TODO: I think I should change the origin to the actual endpoint of my fronted. Otherwise it is not that safe.
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-	@Autowired
 	AuthenticationManager authenticationManager;
-	@Autowired
 	UserRepository userRepository;
-	@Autowired
 	RoleRepository roleRepository;
-	@Autowired
 	PasswordEncoder encoder;
-	@Autowired
 	JwtUtils jwtUtils;
+
+	public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
+			RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+		this.authenticationManager = authenticationManager;
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.encoder = encoder;
+		this.jwtUtils = jwtUtils;
+	}
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -60,13 +64,10 @@ public class AuthController {
 		String jwt = jwtUtils.generateJwtToken(authentication);
 
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
+		List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
 				.collect(Collectors.toList());
 
-		return ResponseEntity.ok(new JwtResponse(jwt,
-				userDetails.getId(),
-				userDetails.getUsername(), roles));
+		return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles));
 	}
 
 //	@PostMapping("/signup")
@@ -130,9 +131,7 @@ public class AuthController {
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return ResponseEntity
-					.badRequest()
-					.body(new MessageResponse("Error: Email is already in use!"));
+			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
 
 		// Create new user's account
