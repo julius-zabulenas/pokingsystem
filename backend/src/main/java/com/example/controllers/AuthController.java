@@ -34,6 +34,7 @@ import com.example.repositories.RoleRepository;
 import com.example.repositories.UserRepository;
 import com.example.security.jwt.JwtUtils;
 import com.example.security.services.UserDetailsImpl;
+import com.example.services.AuthService;
 
 // TODO: I think I should change the origin to the actual endpoint of my fronted. Otherwise it is not that safe.
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -41,19 +42,21 @@ import com.example.security.services.UserDetailsImpl;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-	AuthenticationManager authenticationManager;
-	UserRepository userRepository;
-	RoleRepository roleRepository;
-	PasswordEncoder encoder;
-	JwtUtils jwtUtils;
+	private final AuthenticationManager authenticationManager;
+	private final UserRepository userRepository;
+	private final RoleRepository roleRepository;
+	private final PasswordEncoder encoder;
+	private final JwtUtils jwtUtils;
+	private final AuthService authService;
 
 	public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
-			RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+			RoleRepository roleRepository, PasswordEncoder encoder, JwtUtils jwtUtils, AuthService authService) {
 		this.authenticationManager = authenticationManager;
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.encoder = encoder;
 		this.jwtUtils = jwtUtils;
+		this.authService = authService;
 	}
 
 	@PostMapping("/signin")
@@ -118,12 +121,14 @@ public class AuthController {
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestPart("user") SignupRequest signUpRequest,
 			@RequestPart("file") MultipartFile file) {
+		
+		
 
 		String fileName = file.getOriginalFilename();
 		try {
 			file.transferTo(
 //					Linux
-					new File("/home/julius/git/pokingsystem/frontend/src/images/" + fileName));
+					new File("/home/leggo/git/pokingsystem/frontend/src/images/" + fileName));
 //					Windows
 //					new File("C:\\Users\\mokinys\\git\\pokingsystem\\frontend\\src\\images\\" + fileName));
 		} catch (Exception e) {
